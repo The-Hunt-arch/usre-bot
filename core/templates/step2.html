@@ -1,0 +1,30 @@
+<div class="card">
+    <div class="card-body">
+        
+        <div class="mb-3">
+            <label class="form-label">6. Gender</label>
+            <select class="form-select" name="gender" required>
+                <option value="">Select your answer</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="dob" class="form-label">7. Date of Birth</label>
+            <input type="date" class="form-control" id="dob" name="dob" >
+        </div>
+        <div class="mb-3">
+            <label class="form-label">8. Higher Degree</label>
+            <select class="form-select" name="degree" >
+                <option value="">Select your degree</option>
+                <option value="BE/BTECH">BE/BTECH</option>
+                <option value="ME/MTECH">ME/MTECH</option>
+                <option value="PHD">PHD</option>
+            </select>
+        </div>
+    
+        <!-- <button type="button" class="btn btn-primary"  onclick="prevStep()">Previous</button> -->
+        <button type="button" class="btn btn-primary" id="proctorEnabler"  onclick="nextStep()">Next</button>
+     </div>
+</div> 

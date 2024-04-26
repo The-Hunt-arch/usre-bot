@@ -1,0 +1,78 @@
+<div class="card">
+    <div class="card-body">
+        <div id="jd">
+
+            <h3>Job Title: Machine Learning Engineer</h3>
+            <p>Job Description: We are seeking a Machine Learning Engineer to join our AI team. In this role, you will work on a variety of ML and AI projects, and your primary responsibility will be to assist in the development and deployment of machine learning models. Whether you're a recent graduate with a Bachelor's degree or have a Master's degree in a relevant field, you'll have the opportunity to learn and grow while contributing to the development of cutting-edge AI solutions.</p>
+
+            <h3>Key Responsibilities:</h3>
+            <ul>
+                <li>Collaborate with ML/AI engineers on various projects.</li>
+                <li>Assist in data collection, preprocessing, and feature engineering.</li>
+                <li>Develop, test, and deploy machine learning models.</li>
+                <li>Perform model evaluation, optimization, and tuning.</li>
+                <li>Stay up-to-date with the latest advancements in ML/AI technologies.</li>
+                <li>Contribute to documentation and knowledge sharing within the team.</li>
+            </ul>
+
+            <h3>Qualifications:</h3>
+            <ul>
+                <li>Bachelor's or Master's degree in Computer Science, Data Science, or a related field.</li>
+                <li>Strong understanding of machine learning fundamentals.</li>
+                <li>Proficiency in Python and relevant ML libraries (e.g., scikit-learn, TensorFlow, or PyTorch).</li>
+                <li>Knowledge of data manipulation and analysis tools (e.g., Pandas, NumPy).</li>
+                <li>Experience with version control systems (e.g., Git).</li>
+                <li>Familiarity with web frameworks like Django and Flask.</li>
+                <li>Excellent problem-solving and analytical skills.</li>
+                <li>Strong communication and teamwork abilities.</li>
+            </ul>
+
+            <h3>Additional Preferred Skills:</h3>
+            <ul>
+                <li>Experience with deep learning models and frameworks.</li>
+                <li>Familiarity with cloud computing platforms (e.g., AWS, Azure, GCP).</li>
+                <li>Basic knowledge of data visualization tools (e.g., Matplotlib or Seaborn).</li>
+                <li>Previous internships or projects related to ML/AI.</li>
+                <li>Any relevant certifications or coursework.</li>
+            </ul>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">1. Have you thoroughly reviewed the job description?</label>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="reviewed" id="yes" value="yes">
+                <label class="form-check-label" for="yes">Yes</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="reviewed" id="no" value="no">
+                <label class="form-check-label" for="no">No</label>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="resume" class="form-label">2. Upload your resume (PDF, Word):</label>
+            <input type="file" class="form-control" id="resume" name="resume" accept=".pdf,.doc,.docx">
+        </div>
+
+        <div class="mb-3">
+            <label for="full-name" class="form-label">3. Full Name </label>
+            <input type="text" class="form-control" id="full-name" name="full_name" required>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">4. Email address</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+        <div class="mb-3">
+            <label for="phone" class="form-label">5. Phone number</label>
+            <input type="tel" class="form-control" id="phone" name="phone" pattern="[0-9]{10}"  required>
+        </div>
+
+        
+
+        <button type="button" class="btn btn-primary" onclick="nextStep()" id="next-button" >Next</button>
+        <button class="btn btn-primary" style="display: none;" type="button" id="loader-button" disabled>
+            <span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span>
+            <span role="status">Loading...</span>
+        </button>
+    </div>
+</div>

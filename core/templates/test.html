@@ -1,0 +1,829 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration form</title>
+    <!-- Add the favicon link -->
+    <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+    <!-- Optionally, for modern browsers -->
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" rel="stylesheet"  crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <style>
+    
+        .heading {
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: bold;
+            /* background-color: #002970; */
+        }
+
+        .logo {
+            /* width: 70px; */
+            height: 35px;
+        }
+        .logo_name{
+           color: #002970;
+        }
+        .dt-row{
+            width: 100%;
+            overflow: scroll;
+        }
+        li,p{
+            font-size: small;
+        }
+        h3{
+            font-size: medium;
+        }
+        h2{
+            font-size: large;
+            /* color: #0a5281; */
+        }
+        .question-card{
+            text-align: center !important;
+            align-items: center !important;
+        }
+        .card{
+            color: #fff;
+            font-weight: bold;
+            font-family: sans-serif;
+            background: linear-gradient(to right, rgba(255, 0, 0, 0.5), rgba(0, 0, 255, 0.5));
+
+        }
+        .timer {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+    </style>
+</head>
+<body style="background: rgb(0, 189, 242);">
+    <div class=" container-fluid heading shadow-lg mb-1" style="background-color: #fff;">
+        <div class="col-1">
+            <img class="logo" src="{% static 'images/user.png' %}" alt="AWS Logo" style="width: 55px;height: 55px;" >
+        </div>
+        <div class="col-10 text-center">
+            <div class="logo_name">
+                <span style="font-size: xx-large;margin-bottom: 0px;">User Registration</span>
+            </div>
+        </div>
+        <div class="col-1">
+            <div id="timer" class="timer" style="display: none;">02:00</div>  
+        </div>  
+    </div>
+    <div class="container p-2 card">
+            <form id="multi-step-form" >
+                {% csrf_token %}
+                <div class="steps" id="step1">
+                    <h2>Step 1: Job Application</h2> 
+                    {% include 'step1.html' %}
+                </div>
+                
+                
+                <div class="steps" id="step2" style="display: none;">
+                    <h2>Step 2: Personal Details</h2>
+                    <p>Please fill all the details carefully.</p>
+                    
+                    {% include 'step2.html' %}  
+                </div>
+                
+                <div class="steps" id="step3" style="display: none;">
+                    <!-- Step 3: Address -->
+                    <h2>Step 3: Question</h2>
+                    {% include 'step3.html' %}  
+                </div>
+                <div class="steps" id="step4" style="display: none;">
+                    <!-- Step 3: Address -->
+                    <h2>Step 4: Question</h2>
+                    {% include 'step4.html' %}  
+                </div>
+                <div class="steps" id="step5" style="display: none;">
+                    <!-- Step 3: Address -->
+                    <h2>Step 5: Question</h2>
+                    {% include 'step5.html' %}  
+                </div>
+                <div class="steps" id="step6" style="display: none;">
+                    <!-- Step 3: Address -->
+                    <h2>Step 6: Question</h2>
+                    {% include 'step6.html' %}  
+                </div>
+                <div class="steps" id="step7" style="display: none;">
+                    <!-- Step 3: Address -->
+                    <h2>Step 7: Question</h2>
+                    {% include 'step7.html' %}  
+                </div>
+                <div class="steps" id="step8" style="display: none;">
+                    <h2>Step 8: Working Details</h2>
+                    {% include 'step8.html' %}  
+                </div>
+            </form>
+    </div>
+    
+
+    <!-- Bootstrap and scripts -->
+    <script
+        src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js" ></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js" ></script>
+
+    <script>
+        window.onbeforeunload = function() {
+            localStorage.clear();
+        };
+        function submitForm() {
+            // Get form data
+            event.preventDefault()
+            var name = document.getElementById('name').value;
+            var email = document.getElementById('email').value;
+            var phone = document.getElementById('phone').value;
+            var coverLetter = document.getElementById('cover-letter').value;
+            var imageFile = document.getElementById('image-upload').files[0];
+            var resumeFile = document.getElementById('resume').files[0];
+
+            console.log(name)
+            console.log(email)
+            console.log(phone)
+            console.log(coverLetter)
+            console.log(imageFile)
+            console.log(resumeFile)
+
+            // Create FormData object
+            var formData = new FormData();
+            formData.append('name', name);
+            formData.append('email', email);
+            formData.append('phone', phone);
+            formData.append('cover_letter', coverLetter);
+            formData.append('image', imageFile);
+            formData.append('resume', resumeFile);
+
+            // Send form data to server (you can use AJAX or submit the form)
+            // For demonstration, let's just log the form data
+            console.log("Form Data:", formData);
+            
+        }
+
+        function getCSRFToken() {
+            var csrfCookie = document.cookie.match(/csrftoken=([^ ;]+)/);
+            return csrfCookie ? csrfCookie[1] : null;
+        }
+
+        $('#submit-btn').click(function() {
+            // Get form data using FormData
+            event.preventDefault()
+            var reviewed = document.querySelector('input[name="reviewed"]:checked').value;
+            var resume = document.getElementById('resume').files[0];
+            var full_name = document.getElementById('full-name').value;
+            var email = document.getElementById('email').value;
+            var phone_number = document.getElementById('phone').value;
+            var gender = document.querySelector('select[name="gender"]').value;
+            var dob_str = document.getElementById('dob').value;
+            var degree = document.querySelector('select[name="degree"]').value;
+            var skills = document.getElementById('skills').value;
+            var experience = document.querySelector('select[name="experience"]').value;
+
+            var questionsJSON = localStorage.getItem('questions');
+            if (questionsJSON) {
+                // Parse the JSON string to get the array of questions
+                
+                var questions = JSON.parse(questionsJSON);
+                ques={}
+                questions.forEach(function(question, index) {
+                   ques["question_" + (index +1)] = question
+                })
+            }
+
+            var answer_1 = document.getElementById('question_1').value;
+            var answer_2 = document.getElementById('question_2').value;
+            var answer_3 = document.getElementById('question_3').value;
+            var answer_4 = document.getElementById('question_4').value;
+            var answer_5 = document.getElementById('question_5').value;
+
+            var answers = {"answers_1":answer_1,"answer_2":answer_2,"answer_3":answer_3,"answer_4":answer_4,"answer_5":answer_5}
+
+
+            // console.log(reviewed)
+            // console.log(resume)
+            // console.log(full_name)
+            // console.log(email)
+            // console.log(phone_number)
+            // console.log(gender)
+            // console.log(dob_str)
+            // console.log(degree)
+            // console.log(skills)
+            // console.log(experience)
+    
+            formData = new FormData();
+            formData.append('reviewed', reviewed);
+            formData.append('resume', resume);
+            formData.append('full_name', full_name);
+            formData.append('email', email);
+            formData.append('phone_number', phone_number);
+            formData.append('gender', gender);
+            formData.append('dob_str', dob_str);
+            formData.append('degree', degree);
+            formData.append('skills', skills);
+            formData.append('experience', experience);
+            var questionsJSON = JSON.stringify(ques);
+            var answersJSON = JSON.stringify(answers);
+            formData.append("questions",questionsJSON);
+            formData.append("answers",answersJSON);
+
+            document.getElementById('submit-loader-button').style.display = 'block';
+            document.getElementById('submit-btn').style.display = 'none';
+            document.getElementById('prev-btn').style.display = 'none';
+
+            $.ajax({
+                type: 'POST',
+                url: '/form-submit/',
+                data:formData,
+                processData: false,
+                contentType: false,
+                // headers: {
+                //     'X-CSRFToken': getCSRFToken() // Include CSRF token in the request headers
+                // },
+                success: function(response) {
+                    // Handle the response from the server
+                    if (response.success) {
+                        // Redirect to the success page
+                        window.location.href = '/success/';
+                    } else {
+                        // Handle errors or display appropriate messages to the user
+                        alert('Failed to submit the form: ' + response.error);
+                    }
+                    document.getElementById('submit-loader-button').style.display = 'none';
+                    document.getElementById('submit-btn').style.display = 'block';
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    // Handle errors here
+                    console.error('Error:', errorThrown);
+                }
+                
+            });
+
+        });
+
+
+        // function nextStep() {
+        //     var currentStep = document.querySelector('[id^="step"]:not([style*="none"])');
+
+        //     //check validation on active pages
+
+        //         // var isValid = true;
+        //         // currentStep.querySelectorAll('input[required], select[required]').forEach(function(input) {
+        //         //     if (!input.checkValidity()) {
+        //         //         input.classList.add('is-invalid');
+        //         //         isValid = false;
+        //         //     } else {
+        //         //         input.classList.remove('is-invalid');
+        //         //     }
+        //         // });
+
+        //         // if (!isValid) {
+        //         //     alert('Please fill all required fields.');
+        //         //     return; // Exit the function if validation fails
+        //         // }
+
+        //     var nextStep = currentStep.nextElementSibling;
+        //     currentStep.style.display = 'none';
+        //     nextStep.style.display = 'block';
+        // }
+
+        function saveQuestionsToLocalStorage(questions) {
+            // Convert the questions array to JSON string
+            var questionsJSON = JSON.stringify(questions);
+            
+            // Store the questions JSON string in the local storage
+            localStorage.setItem('questions', questionsJSON);
+        }
+
+       
+        
+        function displayQuestionsFromLocalStorage(step) {
+            // Retrieve questions from local storage
+            var questionsJSON = localStorage.getItem('questions');
+            if (questionsJSON) {
+                // Parse the JSON string to get the array of questions
+                var questions = JSON.parse(questionsJSON);
+                
+                // Display the question for the given step
+                var questionContainerId = 'question-container-' + step;
+                var questionContainer = document.getElementById(questionContainerId);
+                if (questionContainer) {
+                    // Clear existing content
+                    questionContainer.innerHTML = '';
+
+                    // Calculate the index of the question based on the step
+                    var questionIndex = step - 1 ; // Assuming step 2 corresponds to the first question
+
+                    // Create container div
+                    var div = document.createElement('div');
+                    div.classList.add('container', 'mb-3');
+
+                    // Create label for the question
+                    var label = document.createElement('label');
+                    label.classList.add('form-label');
+                    label.textContent = (questionIndex + 9) + '. ' + questions[questionIndex];
+
+                    // Create div for the button
+                    var buttonDiv = document.createElement('div');
+                    buttonDiv.classList.add('col-12', 'mb-3');
+
+                    // Create recording button
+                    var recordButton = document.createElement('button');
+                    recordButton.setAttribute('type', 'button');
+                    recordButton.setAttribute('data-state', 'start');
+                    recordButton.classList.add('btn', 'btn-primary', 'rounded-circle');
+                    recordButton.innerHTML = '<i class="fa-solid fa-microphone-lines"></i>';
+                    recordButton.onclick = function() {
+                        toggleRecording(this);
+                    };
+
+                    // Append recording button to button div
+                    buttonDiv.appendChild(recordButton);
+
+                    // Create div for audio element and hidden input field
+                    // var audioDiv = document.createElement('div');
+                    // audioDiv.classList.add('col-12', 'mb-3');
+
+                    // Create audio element for playback
+                    var audioElement = document.createElement('audio');
+                    audioElement.id = 'recorded-audio-' + questionIndex;
+                    audioElement.controls = true;
+                    audioElement.style.display = 'none'; // Initially hide the audio element
+
+                    // Create hidden input field to store recorded audio data
+                    var audioInput = document.createElement('input');
+                    audioInput.setAttribute('type', 'hidden');
+                    audioInput.id = 'question_' + questionIndex;
+                    audioInput.name = 'question_' + questionIndex;
+
+                    // Append audio element and hidden input field to audio div
+                    // audioDiv.appendChild(audioElement);
+                    // audioDiv.appendChild(audioInput);
+
+                    // Create textarea element
+                    var textareaDiv = document.createElement('div');
+                    textareaDiv.classList.add('col-12', 'm-3');
+                    var textarea = document.createElement('textarea');
+                    textarea.id = 'textarea-question-' + questionIndex;
+                    textarea.classList.add('form-control', 'overflow-y-auto', 'readonly');
+                    textarea.setAttribute('cols', '80');
+                    textarea.setAttribute('rows', '10');
+                    textareaDiv.appendChild(textarea);
+
+                    // Append label, button div, and audio div to the container div
+                    div.appendChild(label);
+                    div.appendChild(buttonDiv);
+                    div.appendChild(audioElement);
+                    div.appendChild(audioInput);
+                    div.appendChild(textareaDiv)
+
+
+                    // // Create audio element for playback
+                    // var audioKey = 'question_' + questionIndex;
+                    // var audioUrl = localStorage.getItem(audioKey);
+
+                    // if (audioUrl) {
+                    // // Create audio element for playback
+                    // var audioElement = document.createElement('audio');
+                    // audioElement.id = 'recorded-audio-' + questionIndex;
+                    // audioElement.controls = true;
+                    // audioElement.src = audioUrl;
+                    // audioElement.style.display = 'block'; // Show the audio element
+
+                    // var audioInput = document.createElement('input');
+                    // audioInput.setAttribute('type', 'hidden');
+                    // audioInput.id = 'question_' + questionIndex;
+                    // audioInput.name = 'question_' + questionIndex;
+
+                    // // Append label and audio element to the div
+                    // div.appendChild(label);
+                    // div.appendChild(recordButton)
+                    // div.appendChild(audioElement);
+                    // div.appendChild(audioInput);
+                    // } else {
+                    //     console.log("hi")
+                    // // Create recording button
+                    // var audioElement = document.createElement('audio');
+                    // audioElement.id = 'recorded-audio-' + questionIndex;
+                    // audioElement.controls = true;
+                    // audioElement.style.display = 'none'; // Initially hide the audio element
+
+                    // // Create hidden input field to store recorded audio data
+                    // var audioInput = document.createElement('input');
+                    // audioInput.setAttribute('type', 'hidden');
+                    // audioInput.id = 'question_' + questionIndex;
+                    // audioInput.name = 'question_' + questionIndex;
+                    
+
+                    // div.appendChild(label);
+                    // div.appendChild(recordButton)
+                    // div.appendChild(audioElement);
+                    // div.appendChild(audioInput);
+
+                    // }    
+
+
+                    // Append the div to the question container
+                    questionContainer.appendChild(div);
+                } else {
+                    console.error('Question container not found for step ' + step);
+                }
+            } else {
+                console.error('Questions not found in local storage.');
+            }
+        }
+
+        // Function to toggle recording
+        function toggleRecording(button) {
+            console.log("togglebutton",button)
+            console.log("togglebutton",button.parentNode)
+            var questionIndex = button.closest('.container').querySelector('input[type="hidden"]').id.split('_')[1];
+            var audioElement = document.getElementById('recorded-audio-' + questionIndex);
+            console.log(audioElement)
+            if (button.getAttribute('data-state') === 'start') {
+                console.log("start")
+                startRecording(button, audioElement,questionIndex);
+            } else {
+                stopRecording(button, audioElement,questionIndex);
+            }
+        }
+
+        // function transcribeAudio(audioBlob) {
+        //     console.log("bbb")
+        //     // Create a new instance of SpeechRecognition
+        //     const recognition = new window.webkitSpeechRecognition(); // Using webkitSpeechRecognition for compatibility
+            
+        //     // Set parameters for speech recognition
+        //     recognition.lang = 'en-US'; // Set language to English (United States)
+        //     recognition.interimResults = true; // Enable interim results for live transcription
+
+        //     // Event listener for when speech is recognized
+        //     recognition.onresult = function(event) {
+        //         let interimTranscript = ''; // Initialize interim transcript
+        //         let finalTranscript = ''; // Initialize final transcript
+
+        //         // Iterate through each recognition result
+        //         for (let i = event.resultIndex; i < event.results.length; i++) {
+        //             const transcript = event.results[i][0].transcript; // Get transcript from result
+        //             if (event.results[i].isFinal) {
+        //                 finalTranscript += transcript + ' '; // Add transcript to final transcript
+        //             } else {
+        //                 interimTranscript += transcript; // Add transcript to interim transcript
+        //             }
+        //         }document.getElementById('test-text').textContent = finalTranscript.trim();
+
+        //         // Update the content of the 'test-text' element with the final transcript
+        //         console.log(finalTranscript.trim())
+                
+        //     };
+
+        //     // Event listener for when speech recognition stops
+        //     recognition.onend = function() {
+        //         // Optionally, you can restart recognition here for continuous transcription
+        //         // recognition.start();
+        //     };
+
+        //     // Start speech recognition with the provided audioBlob
+        //     recognition.start();
+        // }
+
+
+
+
+        var recordedAudioDict = {};
+
+        function startRecording(button, audioElement, questionIndex) {
+            console.log("Starting recording for question index:", questionIndex);
+            console.log("audioelement", audioElement);
+
+            navigator.mediaDevices.getUserMedia({ audio: true })
+                .then(stream => {
+                    recorder = new MediaRecorder(stream);
+                    var chunks = []; // Array to store audio chunks
+
+                    recorder.ondataavailable = e => {
+                        chunks.push(e.data); // Store each chunk of audio data
+                    };
+
+                    recorder.onstop = () => {
+                        // Combine all audio chunks into a single Blob
+                        console.log("in stop")
+                        var audioBlob = new Blob(chunks, { type: 'audio/wav' });
+
+                        // Save the audio Blob to local storage
+                        var audioKey = 'question_' + questionIndex;
+                        localStorage.setItem(audioKey, audioBlob);
+                        console.log("in",audioBlob)
+
+                        // Create a URL for the audio Blob
+                        var audioUrl = URL.createObjectURL(audioBlob);
+
+                        // Set the audio element source and display it
+                        audioElement.src = audioUrl;
+                        audioElement.style.display = 'block';
+                        console.log(audioElement);
+                        console.log("audio");
+
+                        // button.setAttribute('data-state', button.getAttribute('data-state') === 'start' ? 'stopped' : 'start');
+                        // button.classList.remove('btn-danger');
+                        // button.classList.add('btn-primary');
+
+                        // Transcribe the recorded audio
+                        // transcribeAudio(audioBlob, questionIndex);
+                        // var audioBlob = localStorage.getItem('question_'+questionIndex);
+                        // console.log("out",audioBlob1)
+                        transcribeAudio(audioBlob, questionIndex);
+                    };
+
+                    button.setAttribute('data-state', 'stopped'); // Update button text content here
+                    button.classList.remove('btn-primary');
+                    button.classList.add('btn-danger');
+                    recorder.start();
+
+                    // Start recording when the button is clicked
+                    // button.onclick = function() {
+                    //     if (recorder.state === 'inactive') {
+                    //         chunks = []; // Reset chunks array for each recording session
+                    //         recorder.start();
+                    //         button.setAttribute('data-state', 'stopped'); // Update button text content
+                    //         button.classList.remove('btn-primary');
+                    //         button.classList.add('btn-danger');
+                    //     } else {
+                    //         recorder.stop(); // Stop recording
+                    //     }
+                    // };
+                })
+                .catch(console.error);
+        }
+
+// Function to transcribe the recorded audio
+function transcribeAudio(audioBlob, questionIndex) {
+    console.log("out", audioBlob);
+
+    // Create an audio element to play the audio Blob
+    var audioElement = new Audio();
+    audioElement.src = URL.createObjectURL(audioBlob);
+
+    // Once the audio is loaded, start transcription
+    audioElement.onloadedmetadata = function() {
+        var recognizer = new webkitSpeechRecognition(); // Create a speech recognition object
+
+        recognizer.onresult = function(event) {
+            console.log("wwwwww:");
+            var transcript = event.results[0][0].transcript; // Get the transcript from the recognition result
+            var confidence = event.results[0][0].confidence; // Get the confidence level of the transcription
+
+            console.log('transcript', transcript);
+
+            // Display the transcript in the corresponding textarea
+            var textareaId = 'textarea-question-' + questionIndex;
+            var textarea = document.getElementById(textareaId);
+            if (textarea) {
+                textarea.value = transcript;
+            }
+        };
+
+        recognizer.onerror = function(event) {
+            console.error('Speech recognition error:', event.error);
+        };
+
+        // Start speech recognition with the audio from the Blob
+        recognizer.start();
+    };
+}
+
+
+
+
+        // Function to stop recording
+        function stopRecording(button,audioElement,questionIndex) {
+            console.log("stopRecordingfunction")
+            console.log("recorder.state",recorder.state)
+            if (recorder.state === 'recording') {
+                console.log("stoped",questionIndex)
+                recorder.stop();
+                button.setAttribute('data-state','start')
+                button.classList.remove('btn-danger');
+                button.classList.add('btn-primary');
+            }
+        }
+        
+
+        var timer = null; // Variable to hold the timer reference
+
+        function startTimer(stepNumber) {
+            // Clear the previous timer if it exists
+            if (timer) {
+                clearInterval(timer);
+            }
+
+            var timeLimit = 320; // 2 minutes in seconds
+            var timerDisplay = document.getElementById('timer');
+
+            timer = setInterval(function() {
+                var minutes = Math.floor(timeLimit / 60);
+                var seconds = timeLimit % 60;
+
+                // Add leading zeros to single-digit minutes and seconds
+                var formattedTime = ('0' + minutes).slice(-2) + ':' + ('0' + seconds).slice(-2);
+
+                timerDisplay.textContent = formattedTime;
+
+                if (timeLimit <= 0) {
+                    clearInterval(timer);
+                    // Move to the next step (implement your logic here)
+                    nextStep()
+                }
+
+                timeLimit--;
+            }, 1000); // Update every second
+        }
+
+        function checkMediaPermissions() {
+            return new Promise((resolve, reject) => {
+                navigator.mediaDevices.getUserMedia({ audio: true, video: true })
+                    .then(stream => {
+                        // User granted access to both microphone and camera
+                        stream.getTracks().forEach(track => track.stop()); // Stop the tracks
+                        resolve(true);
+                    })
+                    .catch(error => {
+                        // User denied access or an error occurred
+                        console.error('Error accessing microphone and camera:', error);
+                        reject(error);
+                    });
+            });
+        }
+
+        function showTimer(visibiltyType){
+            document.getElementById('timer').style.display = visibiltyType;
+        }
+
+        function nextStep() {
+            var currentStep = document.querySelector('[id^="step"]:not([style*="none"])');
+            var nextStep = currentStep.nextElementSibling;
+            var currentStepId = currentStep.getAttribute('id');
+
+            clearInterval(timer);
+
+            if (currentStepId === 'step1') {
+                // Proceed to the next step (step 2)
+                // proceedToNextStep();
+                // Make AJAX call only when moving from step 1 to step 2
+                showTimer("none")
+                console.log("yes",document.getElementById('loader-button'))
+                document.getElementById('loader-button').style.display = 'block';
+                document.getElementById('next-button').style.display = 'none';
+                makeAjaxCallForStep1();
+            } 
+            else  if (currentStepId === 'step2'  || currentStepId === 'step3' || currentStepId === 'step4' || currentStepId === 'step5' || currentStepId === 'step6' || currentStepId === 'step7') {
+                if (currentStepId === 'step2') {
+                    // Ask for confirmation before proceeding to step 3
+                    checkMediaPermissions()
+                        .then(() => {
+                            if (confirm("Are you ready? Your assessment will start from the next step.")) {
+                                console.log(currentStepId)
+                                var stepString = currentStepId;
+                                var stepNumber = parseInt(stepString.replace('step', ''))-1;
+                                displayQuestionsFromLocalStorage(stepNumber);
+                                
+                                // Proceed to the next step (step 3)
+                                currentStep.style.display = 'none';
+                                nextStep.style.display = 'block';
+                                showTimer("block")
+                                if (currentStepId != 'step7'){
+                                    startTimer(stepNumber);
+                                }
+                            }
+                        })
+                        .catch(error => {
+                            // Handle permission-related errors
+                            if (error.name === 'NotAllowedError') {
+                                if (error.constraintName === 'audio') {
+                                    // User denied access to microphone
+                                    alert('You denied access to the microphone.');
+                                } else if (error.constraintName === 'video') {
+                                    // User denied access to camera
+                                    alert('You denied access to the camera.');
+                                } else {
+                                    // Handle other errors
+                                    alert('You denied access to both microphone and camera.');
+                                }
+                            } else {
+                                // Handle other errors
+                                console.error('Error accessing media:', error);
+                            }
+                        });
+                }
+                else{
+                    // Proceed to the next step (step 2)
+                    // proceedToNextStep();
+                    // Make AJAX call only when moving from step 1 to step 2
+                    console.log(currentStepId)
+                    var stepString = currentStepId;
+                    var stepNumber = parseInt(stepString.replace('step', ''))-1;
+                    displayQuestionsFromLocalStorage(stepNumber);
+                    
+                    // Proceed to the next step (step 3)
+                    currentStep.style.display = 'none';
+                    nextStep.style.display = 'block';
+                    showTimer("block")
+                    if (currentStepId != 'step7'){
+                        startTimer(stepNumber);
+                    }
+                }
+                
+            } 
+            else {
+                showTimer("none")
+                currentStep.style.display = 'none';
+                nextStep.style.display = 'block';
+            }
+        }
+
+        // Function to proceed to the next step
+        function proceedToNextStep() {
+           
+            var currentStep = document.querySelector('[id^="step"]:not([style*="none"])');
+            var nextStep = currentStep.nextElementSibling;
+            currentStep.style.display = 'none';
+            nextStep.style.display = 'block';
+        }
+
+        // Function to make AJAX call for step 1
+        function makeAjaxCallForStep1() {
+            // Get job description text from the 'jd' div
+            var jobDescription = document.getElementById('jd').innerText.trim();
+
+            // Get the value of the radio button for job description review
+            var reviewed = document.querySelector('input[name="reviewed"]:checked');
+            var jobDescriptionReviewed = reviewed ? reviewed.value : '';
+
+            // Get the uploaded resume file
+            var resumeFile = document.getElementById('resume').files[0];
+
+            // Create a FormData object to send data to the backend
+            var formData = new FormData();
+            formData.append('job_description', jobDescription);
+            formData.append('job_description_reviewed', jobDescriptionReviewed);
+            formData.append('resume', resumeFile);
+
+            // Make an AJAX request to send the data to the backend
+            $.ajax({
+                type: 'POST',
+                url: '/process-step1/', // URL of your Django view to handle step 1 processing
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    // Process the response as needed
+                    if (response.success) {
+                        // Proceed to the next step (step 2)
+                        proceedToNextStep();
+                        saveQuestionsToLocalStorage(response.question);
+                    } else {
+                        // Handle any errors or display appropriate messages to the user
+                        alert('Failed to process step 1: ' + response.message);
+                    }
+                    // Hide loader button and show next button
+                    // document.getElementById('loader-button').style.display = 'none';
+                    // document.getElementById('next-button').style.display = 'block';
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX Error:', status, error);
+                    // Optionally, display an error message to the user
+                }
+            });
+        }
+
+
+
+        // Function to show the previous step and hide the current step
+        function prevStep() {
+            var currentStep = document.querySelector('[id^="step"]:not([style*="none"])');
+            var prevStep = currentStep.previousElementSibling;
+            clearInterval(timer);
+            currentStep.style.display = 'none';
+            prevStep.style.display = 'block';
+        }
+
+        
+    </script>
+    
+</body>
+</html>

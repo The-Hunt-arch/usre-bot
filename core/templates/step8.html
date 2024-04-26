@@ -1,0 +1,38 @@
+<div class="card">
+    <div class="card-body">
+        <div class="mb-3">
+            <label for="skills" class="form-label">13. List all your skills, separated by commas</label>
+            <input type="text" class="form-control" id="skills" name="skills" >
+        </div>
+        <div class="mb-3">
+            <label for="experience" class="form-label">14. How many years of experience do you have?</label>
+            <select class="form-select" name="experience" >
+                <option value="">Select your experience</option>
+                <option value="1">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <!-- <option value="5 or greater than 5">5 or greater than 5</option> -->
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="current_ctc" class="form-label">Current CTC </label>
+            <input type="number" class="form-control" id="current_ctc" name="current_ctc" oninput="validateInput(this, 10)">
+        </div>
+        <div class="mb-3">
+            <label for="expected_ctc" class="form-label">Expected CTC</label>
+            <input type="number" class="form-control" id="expected_ctc" name="expected_ctc" oninput="validateInput(this, 10)">
+        </div>
+        <div class="mb-3">
+            <label for="np" class="form-label">Notice Period (in days)</label>
+            <input type="number" class="form-control" id="np" name="np" >
+        </div>
+        <!-- <button type="button" class="btn btn-primary" onclick="prevStep()" id="prev-btn">Previous</button> -->
+        <button type="submit" class="btn btn-primary" id="submit-btn">Submit</button>
+        <button class="btn btn-primary" style="display: none;" type="button" id="submit-loader-button" disabled>
+            <span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span>
+            <span role="status">we are processing your details please wait...</span>
+        </button>
+    </div>
+</div>
