@@ -119,6 +119,18 @@
 
     <script type='module' src="{% static 'js/faceDetect.js' %}" defer></script>
     <script>
+        var blinkingButton = document.getElementById('blinkingButton');
+
+        var blinkingButton = document.getElementById('blinkingButton');
+
+function toggleBlinking() {
+  blinkingButton.classList.toggle('blinking');
+}
+
+// Toggle blinking effect every second (example)
+setInterval(toggleBlinking, 500);
+
+
         window.onbeforeunload = function () {
             localStorage.clear();
         };
@@ -268,6 +280,12 @@
                     var div = document.createElement('div');
                     div.classList.add('container', 'mb-3');
 
+                    // Apply inline CSS styles to the div
+                    div.style.display = 'flex';
+                    div.style.flexDirection = 'column';
+                    div.style.alignItems = 'center';
+                    div.style.textAlign = 'center';
+
                     // Create label for the question
                     var label = document.createElement('label');
                     label.classList.add('form-label');
@@ -321,6 +339,7 @@
             startBtn.addEventListener('click', () => {
                 startBtn.disabled = true;
                 stopBtn.disabled = false;
+                stopBtn.classList.add('blinking');
                 output.innerHTML = '';
 
                 const outputId = output.id;
@@ -337,7 +356,8 @@
             stopBtn.addEventListener('click', () => {
                 startBtn.disabled = false;
                 stopBtn.disabled = true;
-
+                stopBtn.classList.remove('blinking');
+                
                 const outputId = output.id;
                 console.log(outputId)
                 const questionIndex = outputId.split('_')[1];
@@ -495,9 +515,9 @@
             let modal = document.createElement('div');
             modal.innerHTML = `
                 <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000; background: white; padding: 20px; border: 1px solid black;">
-                <p>If you do the small screen, the test will be terminated.</p>
-                <button type="button" class="btn btn-primary" onclick="stayFullScreen()">Continue with exam.</button>
-                <button type="button" class="btn btn-danger" onclick="terminateTest()">Terminate the Test</button>
+                <p>Switching Tabs & Screen size modification will terminate the exam.</p>
+                <button type="button" class="btn btn-primary" onclick="stayFullScreen()">Continue with Assesment.</button>
+                <button type="button" class="btn btn-danger" onclick="terminateTest()">Terminate the Assesment </button>
                 </div>
             `;
             document.body.appendChild(modal);

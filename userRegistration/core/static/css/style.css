@@ -38,8 +38,6 @@ h2{
     font-weight: bold;
     font-family: sans-serif;
     background: linear-gradient(to right, rgba(255, 0, 0, 0.5), rgba(0, 0, 255, 0.5));
-    text-align: center !important;
-    align-items: center !important;
 
 }
 .timer {
@@ -52,15 +50,16 @@ h2{
     border-radius: 5px;
 }
 
-.blink {
-  animation: blinker 1s linear infinite;
-}
-
-@keyframes blinker {
+@keyframes blink {
   50% {
-      opacity: 0;
+    opacity: 0;
   }
 }
+
+.blinking {
+  animation: blink 1s linear infinite;
+}
+
 
 
 /* @use "@material";
