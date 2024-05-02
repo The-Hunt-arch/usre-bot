@@ -4,10 +4,10 @@ from langchain_core.prompts import PromptTemplate
 from langchain_openai import AzureChatOpenAI
 import os
 
-os.environ["AZURE_OPENAI_API_KEY"] = "1193fe53e44a4c2ba132cf5a5259f9e6"
-os.environ["AZURE_OPENAI_ENDPOINT"] = "https://desai-pac-azure-open-ai-1.openai.azure.com/"
+os.environ["AZURE_OPENAI_API_KEY"] = ""
+os.environ["AZURE_OPENAI_ENDPOINT"] = ""
 os.environ["AZURE_OPENAI_API_VERSION"] = "2024-02-15-preview"
-os.environ["AZURE_OPENAI_CHAT_DEPLOYMENT_NAME"] = "despacai-gpt4"
+os.environ["AZURE_OPENAI_CHAT_DEPLOYMENT_NAME"] = ""
 
 eval_llm  = AzureChatOpenAI(
     openai_api_version=os.environ["AZURE_OPENAI_API_VERSION"],
